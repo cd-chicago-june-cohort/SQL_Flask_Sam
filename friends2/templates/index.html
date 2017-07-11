@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename = 'styles.css')}}">
+    <title>Friends - The Remix</title>
+  </head>
+  <body>
+    <h1>Friends:</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th><th>Age</th><th>Friends Since</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for friend in friend_list%}
+            <tr>
+                <td>{{friend.name}}</td>
+                <td>{{friend.age}}</td>
+                <td>{{friend.friends_since.strftime('%B %d')}}</td>
+                <td>{{friend.friends_since.strftime('%Y')}}</td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+    <h2>Add a friend:</h2>
+    <form action='/addfriends' method='post'>
+        <label for='name'>Name:</label><input type='text' name='name' id='name'>
+        <label for='age'>Age:</label><input type='text' name='age' id='age'>
+        <input type='submit' id='submit' val='Add Friend'>
+    </form>
+  </body>
+</html>
