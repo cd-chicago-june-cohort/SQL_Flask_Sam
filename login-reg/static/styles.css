@@ -1,0 +1,35 @@
+#login{
+    display: inline-block;
+    width: 400px;
+    height: 600px;
+    vertical-align: top;
+}
+
+#registration {
+    display: inline-block;
+    width: 400px;
+    height: 600px;
+    vertical-align: top;
+}
+
+input {
+    display: block;
+}
+
+form{
+    display: inline-block;
+}
+
+#container{
+    margin: auto;
+    width: 850px;
+}
+
+#flash{
+    width: 600px;
+    margin: auto;
+    text-align: center;
+    color:red;
+    font-weight: bold;
+    font-size: 20px;
+}
