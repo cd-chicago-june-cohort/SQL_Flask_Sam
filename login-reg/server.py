@@ -4,6 +4,7 @@ import re
 app = Flask(__name__)
 mysql = MySQLConnector(app, 'loginreg')
 app.secret_key = 'HVZ5T68AE1WF'
+import md5
 
 @app.route('/')
 def init():
@@ -14,18 +15,18 @@ def log():
     valid = True
     #check whether email is in database or not
     email = request.form['email']
-    password = request.form['password']
+    password = md5.new(request.form['password']).hexdigest()
     login_data = {'email': email, 'password': password}
     check_query = "SELECT * FROM users WHERE email = :email"
     check = mysql.query_db(check_query, login_data)
-    print '\n'
-    print check
     if len(check) == 1:
         #check that password matches that in database
-        pw_query = "SELECT password FROM users WHERE email = '" + login_data['email'] +"'"
-        pw = mysql.query_db(pw_query)
+        pw_query = "SELECT password FROM users WHERE email = :email"
+        pw = mysql.query_db(pw_query, login_data)
         if password == pw[0]['password']:
+            print password
             flash('Login Successful!')
+            return redirect('/success')
         else:
             flash('Incorrect password. Please try again')
     else:
@@ -38,13 +39,11 @@ def register():
     lastname = request.form['last_name']
     email = request.form['email']
     password = request.form['password']
+    secure_pw = md5.new(request.form['password']).hexdigest()
     confirmed_pw = request.form['confirm']
-    reg_data = {'firstname': firstname, 'lastname': lastname, 'email': email, 'password': password}
-    print reg_data
+    reg_data = {'firstname': firstname, 'lastname': lastname, 'email': email, 'password': secure_pw}
     check_query = "SELECT * FROM users WHERE email = :email"
     check = mysql.query_db(check_query, reg_data)
-    print len(check)
-    print check
     if len(check) == 0:
         if password != confirmed_pw:
             flash('Passwords do not match. Please try again')
@@ -60,5 +59,13 @@ def register():
         flash('Email is already registered. Use a different email or log in.')
     return redirect('/')
 
+@app.route('/success')
+def success():
+    return render_template('success.html')
+
+@app.route('/logout')
+def logout():
+    flash('Logout successful')
+    return redirect('/')
 
 app.run(debug=True)

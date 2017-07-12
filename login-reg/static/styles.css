@@ -33,3 +33,19 @@ form{
     font-weight: bold;
     font-size: 20px;
 }
+
+#success{
+    width: 600px;
+    margin: auto;
+    text-align: center;
+    color:green;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+#logout{
+    width: 80px;
+    margin: auto;
+    display: block;
+    margin-top: 20px;
+}
